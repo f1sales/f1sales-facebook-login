@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: &name store-finder
+  labels:
+    app: &app f1sales-facebook-login
+spec:
+  ports:
+    - port: 9292
+  selector:
+    app: *app
+    tier: *name
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: &name store-finder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: &app_name f1sales-facebook-login
+      tier: *name
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: *name
+      labels:
+        app: *app_name
+        tier: *name
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+      - name: rails
+        image: marcioklepacz/f1sales-facebook-login:latest
+        imagePullPolicy: Always
+        args: ["rackup --host 0.0.0.0 -p 9292"]
+        env:
+          - name: RACK_ENV
+            value: "production"
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: "secret-key-base"
+                key: "secret-key-base"
+          - name: FACEBOOK_KEY
+            valueFrom:
+              secretKeyRef:
+                name: "facebook-key"
+                key: "facebook-key"
+          - name: FACEBOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: "facebook-secret"
+                key: "facebook-secret"
+        ports:
+          - containerPort: 9292
