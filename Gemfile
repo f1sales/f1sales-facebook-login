@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
-gem 'omniauth', '2.0.0'
-gem 'omniauth-facebook', '~> 8.0.0'
+gem 'omniauth', '~> 2.0.4'
+gem 'omniauth-facebook', '~> 9.0.0'
 gem 'http'
 gem 'haml'
 
