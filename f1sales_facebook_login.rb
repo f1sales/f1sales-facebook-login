@@ -16,6 +16,6 @@ get '/auth/:provider/callback' do
   credentials = omniauth_auth[:credentials]
   token = credentials[:token]
   response = HTTP.post(origin, json: { token: token })
-
-  redirect JSON.parse(response)['redirect']
+  puts response
+  redirect JSON.parse(response.body)['redirect']
 end
