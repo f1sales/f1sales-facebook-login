@@ -9,11 +9,9 @@ use OmniAuth::Builder do
     ENV['FACEBOOK_KEY'],
     ENV['FACEBOOK_SECRET'],
     scope: 'manage_pages,leads_retrieval',
-    origin_param: 'return_to',
-    client_options: {
-      site: 'https://graph.facebook.com/v3.3',
-      authorize_url: 'https://www.facebook.com/v3.3/dialog/oauth'
-    }
+    origin_param: 'return_to'
 end
+
+OmniAuth.config.on_failure = proc { |env| OmniAuth::FailureEndpoint.new(env).redirect_to_failure }
 
 run Sinatra::Application

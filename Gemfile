@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
-gem 'omniauth', '~> 2.0.4'
+gem 'omniauth', '~> 1.9.1'
 gem 'omniauth-facebook', '~> 9.0.0'
 gem 'http'
-gem 'haml'
 
 group :test do
   gem 'rack-test'
