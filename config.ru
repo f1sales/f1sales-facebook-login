@@ -8,7 +8,7 @@ use OmniAuth::Builder do
   provider :facebook,
     ENV['FACEBOOK_KEY'],
     ENV['FACEBOOK_SECRET'],
-    scope: 'manage_pages,leads_retrieval',
+    scope: 'pages_manage_metadata,pages_read_engagement,pages_manage_ads,leads_retrieval',
     origin_param: 'return_to'
 end
 
