@@ -1,0 +1,24 @@
+name: Spec App
+on: [push]
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Bundle install
+        env:
+          RAILS_ENV: test
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rspec

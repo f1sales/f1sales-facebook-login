@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'F1SalesFacebookLogin' do
 
   describe 'GET /auth/faceook/callback' do
-    let(:store_id) { Faker::Hipster.word }
+    let(:store_id) { Faker::Internet.domain_word }
     let(:return_to_url) { "https://#{store_id}.f1sales.org" }
     let(:omniauth_payload) { Faker::Omniauth.facebook }
     let(:auth_payload) { { 'token': token } }
