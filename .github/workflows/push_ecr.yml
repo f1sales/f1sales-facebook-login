@@ -44,6 +44,6 @@ jobs:
           cd manifests/facebook-login
           kustomize edit set image facebook-login=${{ env.image_path }}
           cd ../../
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: "New image version! ${{ github.sha }}"
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "New facebook-login image version! ${{ github.sha }}"
