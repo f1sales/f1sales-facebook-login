@@ -16,6 +16,10 @@ get '/auth/failure' do
   redirect_to_failure(params[:origin])
 end
 
+get '/health' do
+  status 200
+end
+
 def redirect_to_failure(url)
   redirect "#{url}#{failure_path}"
 end
