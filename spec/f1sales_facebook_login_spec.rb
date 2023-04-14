@@ -56,7 +56,7 @@ describe 'F1SalesFacebookLogin' do
         it 'redirect to created integration' do
           expect(last_response).to be_redirect
           follow_redirect!
-          expect(last_request.url).to eq(redirect_url)
+          expect(last_request.url).to eq('testing 123')
         end
       end
     end
