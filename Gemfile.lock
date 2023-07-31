@@ -67,6 +67,9 @@ GEM
       rack (>= 1.6.2, < 3)
     omniauth-facebook (9.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-mercadolibre (0.0.4)
+      omniauth (~> 1.2, >= 1.2.1)
+      omniauth-oauth2 (~> 1.1, >= 1.1.2)
     omniauth-oauth2 (1.7.2)
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
@@ -116,10 +119,11 @@ DEPENDENCIES
   http
   omniauth (~> 1.9.1)
   omniauth-facebook (~> 9.0.0)
+  omniauth-mercadolibre
   rack-test
   rspec
   sinatra
   webmock
 
 BUNDLED WITH
-   2.2.30
+   2.3.10
