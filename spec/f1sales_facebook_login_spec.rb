@@ -116,7 +116,7 @@ describe 'F1SalesFacebookLogin' do
       context 'when store response is sucessful' do
         let(:redirect_url) { "https://#{store_id}.f1sales.org/dashboard/integrations~mercado_livre" }
         let!(:auth_store_request) do
-          stub_request(:post, "#{return_to_url}/auth_mercado_livre")
+          stub_request(:post, "#{return_to_url}/mercado_livre/token")
             .with(
               body: auth_payload.to_json
             )
