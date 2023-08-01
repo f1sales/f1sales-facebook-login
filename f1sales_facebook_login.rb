@@ -43,7 +43,7 @@ def post_token_path(provider)
   if provider == 'facebook'
     '/auth/facebook/token'
   elsif provider == 'mercadolibre'
-    '/auth_mercado_livre'
+    '/mercado_livre/token'
   end
 end
 
