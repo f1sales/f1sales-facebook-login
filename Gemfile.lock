@@ -45,6 +45,9 @@ GEM
     http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
+    httplog (1.6.2)
+      rack (>= 2.0)
+      rainbow (>= 2.0.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jwt (2.3.0)
@@ -79,6 +82,7 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
+    rainbow (3.1.1)
     rake (13.0.6)
     rexml (3.2.5)
     rspec (3.10.0)
@@ -117,6 +121,7 @@ DEPENDENCIES
   byebug
   faker
   http
+  httplog
   omniauth (~> 1.9.1)
   omniauth-facebook (~> 9.0.0)
   omniauth-mercadolibre

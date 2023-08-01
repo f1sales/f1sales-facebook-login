@@ -1,12 +1,10 @@
 require 'sinatra'
 require 'http'
-require 'byebug'
 require 'omniauth'
 require 'omniauth-mercadolibre'
-require 'httplog'
+require 'omniauth-facebook'
 
 get '/auth/:provider/callback' do
-  # byebug
   omniauth_auth = request.env['omniauth.auth']
   origin = request.env['omniauth.origin']
   credentials = omniauth_auth[:credentials] || {}
@@ -14,8 +12,7 @@ get '/auth/:provider/callback' do
   return redirect_to_failure(origin) unless token
 
   response = HTTP.post("#{origin}#{post_token_path(params[:provider])}", json: { token: token })
-  # response.status == 200 ? redirect("#{origin}#{success_path}") : redirect_to_failure(origin)
-  response.status == 200 ? redirect("#{origin}#{success_path(params[:provider])}") : redirect_to_failure(origin) # <- Passa o provider para o metodo sucess_path
+  response.status == 200 ? redirect("#{origin}#{success_path(params[:provider])}") : redirect_to_failure(origin)
 end
 
 get '/auth/failure' do
@@ -42,7 +39,7 @@ def success_path(provider)
   end
 end
 
-def post_token_path
+def post_token_path(provider)
   if provider == 'facebook'
     '/auth/facebook/token'
   elsif provider == 'mercadolibre'

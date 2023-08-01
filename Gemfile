@@ -5,7 +5,6 @@ gem 'omniauth', '~> 1.9.1'
 gem 'omniauth-facebook', '~> 9.0.0'
 gem 'http'
 gem 'omniauth-mercadolibre'
-gem 'httplog'
 
 group :test do
   gem 'rack-test'
