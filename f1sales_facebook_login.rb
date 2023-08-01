@@ -6,7 +6,7 @@ require 'omniauth-mercadolibre'
 require 'httplog'
 
 get '/auth/:provider/callback' do
-  byebug
+  # byebug
   omniauth_auth = request.env['omniauth.auth']
   origin = request.env['omniauth.origin']
   credentials = omniauth_auth[:credentials] || {}
