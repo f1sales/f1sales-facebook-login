@@ -4,17 +4,11 @@ require 'omniauth'
 require 'omniauth-mercadolibre'
 require 'omniauth-facebook'
 
-configure :production, :development do
-  enable :logging
-  $stdout.sync = true # Toda saída será exibida assim que solicitada, independente do buffer.
-end
-
 get '/auth/:provider/callback' do
   omniauth_auth = request.env['omniauth.auth']
   origin = request.env['omniauth.origin']
   credentials = omniauth_auth[:credentials] || {}
   token = credentials[:token]
-  logger.info "Token TMNT -> #{token}"
   return redirect_to_failure(origin) unless token
 
   response = HTTP.post("#{origin}#{post_token_path(params[:provider])}", json: { token: token })
