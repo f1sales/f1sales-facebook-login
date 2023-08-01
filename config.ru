@@ -3,6 +3,8 @@ require 'omniauth-facebook'
 require 'omniauth-mercadolibre'
 require './f1sales_facebook_login'
 
+use Rack::Logger
+
 use Rack::Session::Cookie, secret: ENV['SECRET_KEY_BASE']
 
 use OmniAuth::Builder do
