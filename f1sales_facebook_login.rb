@@ -3,7 +3,6 @@ require 'http'
 require 'omniauth'
 require 'omniauth-mercadolibre'
 require 'omniauth-facebook'
-require 'byebug'
 
 get '/auth/:provider/callback' do
   origin = request.env['omniauth.origin']
