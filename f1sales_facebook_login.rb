@@ -32,25 +32,25 @@ def failure_path
 end
 
 def success_path
-  if provider == 'facebook'
+  if facebook?
     '/dashboard/integrations~facebook_page'
-  elsif provider == 'mercadolibre'
+  elsif mercado_livre?
     '/dashboard/integrations~mercado_livre'
   end
 end
 
 def post_token_path
-  if provider == 'facebook'
+  if facebook?
     '/auth/facebook/token'
-  elsif provider == 'mercadolibre'
+  elsif mercado_livre?
     '/auth_mercado_livre'
   end
 end
 
 def json_payload
-  if provider == 'facebook'
+  if facebook?
     { token: token }
-  elsif provider == 'mercadolibre'
+  elsif mercado_livre?
     {
       user_id: omniauth_auth[:uid],
       access_token: token,
@@ -73,6 +73,14 @@ end
 
 def token
   credentials[:token]
+end
+
+def facebook?
+  provider == 'facebook'
+end
+
+def mercado_livre?
+  provider == 'mercadolibre'
 end
 
 OmniAuth::Strategies::MercadoLibre.class_eval do
