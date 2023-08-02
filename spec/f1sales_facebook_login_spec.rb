@@ -68,7 +68,8 @@ describe 'F1SalesFacebookLogin' do
     context 'when provider is mercadolibre' do
       let(:omniauth_payload) do
         {
-          provider: 'mercadolibre', uid: '12345678',
+          provider: 'mercadolibre',
+          uid: '12345678',
           info: payload_info,
           credentials: payload_credentials,
           extra: payload_extra
@@ -87,6 +88,7 @@ describe 'F1SalesFacebookLogin' do
       let(:payload_credentials) do
         {
           token: 'APP_USR-1234567890abcdefghij-123456-1234567890abcdefghij-12345678',
+          refresh_token: 'TG-1234567890abcefghij-1234567890',
           expires_at: 1_690_923_127,
           expires: true
         }
@@ -94,22 +96,35 @@ describe 'F1SalesFacebookLogin' do
       let(:payload_extra) do
         {
           raw_info: {
-            id: '6012052',
-            name: 'Leopoldo Becker',
+            id: '12345678',
+            site_id: 'MLB',
             first_name: 'Leopoldo',
             last_name: 'Becker',
-            link: 'http://perfil.mercadolivre.com.br/lbecker',
-            username: 'lbecker',
-            location: {
-              id: '761100967',
-              name: 'Stantonburgh, Michigan'
-            },
-            gender: 'male',
             email: 'leopoldo.becker@example.com',
-            timezone: -10,
-            verified: false,
-            updated_time: '2022-11-05T01:27:17-03:00'
+            gender: 'M',
+            nickname: 'LBECKER',
+            permalink: 'http://perfil.mercadolivre.com.br/lbecker',
+            identification: {
+              type: 'CPF',
+              number: '12345678901'
+            },
+            phone: {
+              number: '11912345678'
+            },
+            address: {
+              address: 'Rua dos bobos 0',
+              zip_code: '0000000',
+              city: 'Algum lugar',
+              state: 'BO-BO'
+            }
           }
+        }
+      end
+      let(:auth_payload) do
+        {
+          user_id: omniauth_payload[:uid],
+          access_token: token,
+          refresh_token: payload_credentials[:refresh_token]
         }
       end
 
