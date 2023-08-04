@@ -9,7 +9,7 @@ get '/auth/:provider/callback' do
   return redirect_to_failure(origin) unless token
 
   response = HTTP.post("#{origin}#{post_token_path}", json: json_payload)
-  response.status == 200 ? redirect("#{origin}#{success_path}") : redirect_to_failure(origin)
+  response.status == 200 || response.status == 302 ? redirect("#{origin}#{success_path}") : redirect_to_failure(origin)
 end
 
 get '/auth/failure' do
@@ -27,7 +27,11 @@ def redirect_to_failure(url)
 end
 
 def failure_path
-  '/auth/facebook/failure'
+  if facebook?
+    '/auth/facebook/failure'
+  elsif mercado_livre?
+    '/auth/mercado_livre/failure'
+  end
 end
 
 def success_path
