@@ -9,7 +9,7 @@ get '/auth/:provider/callback' do
   return redirect_to_failure(origin) unless token
 
   response = HTTP.post("#{origin}#{post_token_path}", json: json_payload)
-  response.status == 200 ? redirect("#{origin}#{success_path}") : redirect_to_failure(origin)
+  response_status_valid?(response.status) ? redirect("#{origin}#{success_path}") : redirect_to_failure(origin)
 end
 
 get '/auth/failure' do
@@ -27,7 +27,11 @@ def redirect_to_failure(url)
 end
 
 def failure_path
-  '/auth/facebook/failure'
+  if facebook?
+    '/auth/facebook/failure'
+  elsif mercado_livre?
+    '/auth/mercado_livre/failure'
+  end
 end
 
 def success_path
@@ -80,6 +84,10 @@ end
 
 def mercado_livre?
   provider == 'mercadolibre'
+end
+
+def response_status_valid?(response_status)
+  [200, 302].include?(response_status)
 end
 
 OmniAuth::Strategies::MercadoLibre.class_eval do

@@ -21,6 +21,7 @@ describe 'F1SalesFacebookLogin' do
               )
               .to_return(status: 401, body: {}.to_json, headers: {})
           end
+
           before do
             get '/auth/facebook/callback', nil,
                 { 'omniauth.auth' => omniauth_payload, 'omniauth.origin' => return_to_url }
@@ -47,6 +48,7 @@ describe 'F1SalesFacebookLogin' do
               )
               .to_return(status: 200, body: {}.to_json, headers: {})
           end
+
           before do
             get '/auth/facebook/callback', nil,
                 { 'omniauth.auth' => omniauth_payload, 'omniauth.origin' => return_to_url }
@@ -75,6 +77,7 @@ describe 'F1SalesFacebookLogin' do
           extra: payload_extra
         }
       end
+
       let(:payload_info) do
         {
           email: 'leopoldo.becker@example.com',
@@ -85,6 +88,7 @@ describe 'F1SalesFacebookLogin' do
           verified: false
         }
       end
+
       let(:payload_credentials) do
         {
           token: 'APP_USR-1234567890abcdefghij-123456-1234567890abcdefghij-12345678',
@@ -93,6 +97,7 @@ describe 'F1SalesFacebookLogin' do
           expires: true
         }
       end
+
       let(:payload_extra) do
         {
           raw_info: {
@@ -120,6 +125,7 @@ describe 'F1SalesFacebookLogin' do
           }
         }
       end
+
       let(:auth_payload) do
         {
           user_id: omniauth_payload[:uid],
@@ -130,6 +136,7 @@ describe 'F1SalesFacebookLogin' do
 
       context 'when store response is sucessful' do
         let(:redirect_url) { "https://#{store_id}.f1sales.org/dashboard/integrations~mercado_livre" }
+
         let!(:auth_store_request) do
           stub_request(:post, "#{return_to_url}/auth_mercado_livre")
             .with(
@@ -148,6 +155,60 @@ describe 'F1SalesFacebookLogin' do
         end
 
         it 'redirect to created integration' do
+          expect(last_response).to be_redirect
+          follow_redirect!
+          expect(last_request.url).to eq(redirect_url)
+        end
+      end
+
+      context 'when store response is 302' do
+        let(:redirect_url) { "https://#{store_id}.f1sales.org/dashboard/integrations~mercado_livre" }
+
+        let!(:auth_store_request) do
+          stub_request(:post, "#{return_to_url}/auth_mercado_livre")
+            .with(
+              body: auth_payload.to_json
+            )
+            .to_return(status: 302, body: {}.to_json, headers: {})
+        end
+
+        before do
+          get '/auth/mercadolibre/callback', nil,
+              { 'omniauth.auth' => omniauth_payload, 'omniauth.origin' => return_to_url }
+        end
+
+        it 'post to origin with givem token' do
+          expect(auth_store_request).to have_been_requested
+        end
+
+        it 'redirect to not authorized' do
+          expect(last_response).to be_redirect
+          follow_redirect!
+          expect(last_request.url).to eq(redirect_url)
+        end
+      end
+
+      context 'when store response is not sucessful' do
+        let(:redirect_url) { "https://#{store_id}.f1sales.org/auth/mercado_livre/failure" }
+
+        let!(:auth_store_request) do
+          stub_request(:post, "#{return_to_url}/auth_mercado_livre")
+            .with(
+              body: auth_payload.to_json
+            )
+            .to_return(status: 500, body: {}.to_json, headers: {})
+        end
+
+        before do
+          get '/auth/mercadolibre/callback', nil,
+              { 'omniauth.auth' => omniauth_payload, 'omniauth.origin' => return_to_url }
+        end
+
+        it 'post to origin with givem token' do
+          expect(auth_store_request).to have_been_requested
+        end
+
+        it 'redirect to not authorized' do
           expect(last_response).to be_redirect
           follow_redirect!
           expect(last_request.url).to eq(redirect_url)
